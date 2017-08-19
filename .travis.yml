@@ -25,7 +25,6 @@ r_github_packages:
 
  
 before_install:
-- sudo apt-get -qq update
 # shutdown servies on Travis, which may have a memory impact
 # show memory usage before and after shutdown of services
 - sudo service --status-all
