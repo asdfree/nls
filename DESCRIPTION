@@ -4,7 +4,7 @@ Title: nls
 Version: 0.1.0
 Author: Anthony Joseph Damico
 Maintainer: Anthony Joseph Damico <ajdamico@gmail.com>
-Description: A continuous integration package, tested on ajdamico/asdfree commit bb0e5827a54a78fbd8417d3bc67beb3b4fddb110 ajdamico/lodown commit 588960f5630c3286c4c6286ff5f21af648880d58
+Description: A continuous integration package, tested on ajdamico/asdfree commit 5a43636c59328b18a1dcbfdefa5607265b9a83c3 ajdamico/lodown commit 588960f5630c3286c4c6286ff5f21af648880d58
 License: GPL-3
 Imports: survey, lodown, srvyr
 Encoding: UTF-8
