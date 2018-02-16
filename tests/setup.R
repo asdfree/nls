@@ -151,7 +151,7 @@ nls_design <-
 nls_design <- 
 	update( 
 		nls_design , 
-		bachelors_degree_or_higher = as.numeric( T6657200 >= 5 )
+		bachelors_degree_or_higher = as.numeric( as.numeric( T6657200 ) >= 5 )
 	)
 sum( weights( nls_design , "sampling" ) != 0 )
 
