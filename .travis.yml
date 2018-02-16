@@ -37,5 +37,10 @@ before_install:
 env:
  - this_sample_break=1
  - this_sample_break=2
+ - this_sample_break=3
+ - this_sample_break=4
+ - this_sample_break=5
+ - this_sample_break=6
+ - this_sample_break=7
 matrix:
     fast_finish: true

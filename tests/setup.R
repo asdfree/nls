@@ -5,7 +5,7 @@ options("lodown.cachaca.savecache"=FALSE)
 library(lodown)
 this_sample_break <- Sys.getenv( "this_sample_break" )
 nls_cat <- get_catalog( "nls" , output_dir = file.path( getwd() ) )
-record_categories <- ceiling( seq( nrow( nls_cat ) ) / ceiling( nrow( nls_cat ) / 2 ) )
+record_categories <- ceiling( seq( nrow( nls_cat ) ) / ceiling( nrow( nls_cat ) / 7 ) )
 nls_cat <- nls_cat[ record_categories == this_sample_break , ]
 nls_cat <- lodown( "nls" , nls_cat )
 if( any( grepl( "nlsy97" , nls_cat$full_url ) ) ){
