@@ -3,16 +3,21 @@ if ( .Platform$OS.type == 'windows' ) memory.limit( 256000 )
 options("lodown.cachaca.savecache"=FALSE)
 
 library(lodown)
-lodown( "nls" , output_dir = file.path( getwd() ) )
-library(lodown)
-# examine all available NLS microdata files
-nls_cat <-
-	get_catalog( "nls" ,
-		output_dir = file.path( getwd() ) )
+this_sample_break <- Sys.getenv( "this_sample_break" )
+nls_cat <- get_catalog( "nls" , output_dir = file.path( getwd() ) )
+record_categories <- ceiling( seq( nrow( nls_cat ) ) / ceiling( nrow( nls_cat ) / 2 ) )
+nls_cat <- nls_cat[ record_categories == this_sample_break , ]
+nls_cat <- lodown( "nls" , nls_cat )
+if( any( grepl( "nlsy97" , nls_cat$full_url ) ) ){
 
-# National Longitudinal Survey of Youth, 1997 only
-nls_cat <- subset( nls_cat , study_name == 'NLS Youth 1997 (NLSY97)' )
-# download the microdata to your local computer
+
+
+
+
+
+
+
+
 
 
 options( survey.lonely.psu = "adjust" )
@@ -233,3 +238,4 @@ nls_srvyr_design %>%
 nls_srvyr_design %>%
 	group_by( R1205300 ) %>%
 	summarize( mean = survey_mean( T7545600 , na.rm = TRUE ) )
+}
