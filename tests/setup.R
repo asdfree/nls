@@ -190,7 +190,7 @@ svyratio(
 	nls_design ,
 	na.rm = TRUE
 )
-sub_nls_design <- subset( nls_design , R1205300 %in% 4:5 )
+sub_nls_design <- subset( nls_design , as.numeric( R1205300 ) %in% 4:5 )
 svymean( ~ T7545600 , sub_nls_design , na.rm = TRUE )
 this_result <- svymean( ~ T7545600 , nls_design , na.rm = TRUE )
 
