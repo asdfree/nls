@@ -3,21 +3,16 @@ if ( .Platform$OS.type == 'windows' ) memory.limit( 256000 )
 options("lodown.cachaca.savecache"=FALSE)
 
 library(lodown)
-this_sample_break <- Sys.getenv( "this_sample_break" )
-nls_cat <- get_catalog( "nls" , output_dir = file.path( getwd() ) )
-record_categories <- ceiling( seq( nrow( nls_cat ) ) / ceiling( nrow( nls_cat ) / 7 ) )
-nls_cat <- nls_cat[ record_categories == this_sample_break , ]
-nls_cat <- lodown( "nls" , nls_cat )
-if( any( grepl( "nlsy97" , nls_cat$full_url ) ) ){
+lodown( "nls" , output_dir = file.path( getwd() ) )
+library(lodown)
+# examine all available NLS microdata files
+nls_cat <-
+	get_catalog( "nls" ,
+		output_dir = file.path( getwd() ) )
 
-
-
-
-
-
-
-
-
+# National Longitudinal Survey of Youth, 1997 only
+nls_cat <- subset( nls_cat , study_name == 'NLS Youth 1997 (NLSY97)' )
+# download the microdata to your local computer
 
 
 options( survey.lonely.psu = "adjust" )
@@ -49,7 +44,7 @@ eval( parse( text = column_names_lines ) )
 
 # choose which columns to import
 columns_to_import <-
-	c( 'T5206900' , 'R9829600' , 'R0536300' , 'Z9061800' , 'T6657200' , 'R1205300' )
+	c( 'R0000100' , 'T5206900' , 'R9829600' , 'R0536300' , 'Z9061800' , 'T6657200' , 'R1205300' )
 
 	
 # for each column to import, look for a recoding block
@@ -95,17 +90,15 @@ nls_variables_df <-
 		) 
 	)
 
+# remove all missings
+nls_variables_df[ nls_variables_df < 0 ] <- NA
+
 recodes_to_run <- 
 	gsub( "data\\$" , "nls_variables_df$" , recodes_to_run )
 
 # align the main variables with what the R script says	
 for( this_recode in recodes_to_run ) eval( parse( text = this_recode ) )
 
-	
-# remove all missings
-nls_variables_df[ nls_variables_df < 0 ] <- NA
-
-	
 # cluster and strata variables
 nls_psustr_df <-
 	readRDS( grep( "strpsu\\.rds$" , nlsy_files , value = TRUE ) )
@@ -151,7 +144,7 @@ nls_design <-
 nls_design <- 
 	update( 
 		nls_design , 
-		bachelors_degree_or_higher = as.numeric( as.numeric( T6657200 ) >= 5 )
+		bachelors_degree_or_higher = as.numeric( T6657200 >= 5 )
 	)
 sum( weights( nls_design , "sampling" ) != 0 )
 
@@ -240,4 +233,3 @@ nls_srvyr_design %>%
 nls_srvyr_design %>%
 	group_by( R1205300 ) %>%
 	summarize( mean = survey_mean( T7545600 , na.rm = TRUE ) )
-}
